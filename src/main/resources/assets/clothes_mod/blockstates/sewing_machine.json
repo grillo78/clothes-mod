@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "clothes_mod:block/sewing_machine",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "clothes_mod:block/sewing_machine",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "clothes_mod:block/sewing_machine",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "clothes_mod:block/sewing_machine",
+      "y": 270
+    }
+  }
+}
