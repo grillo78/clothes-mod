@@ -1,18 +1,33 @@
 package grillo78.clothes_mod.common.blocks;
 
+import grillo78.clothes_mod.common.block_entities.SewingMachineBlockEntity;
+import grillo78.clothes_mod.common.container.InventoryContainer;
+import grillo78.clothes_mod.common.container.ModContainers;
+import grillo78.clothes_mod.common.container.SewingMachineContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
+import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
 public class SewingMachineBlock extends HorizontalBlock {
@@ -59,6 +74,15 @@ public class SewingMachineBlock extends HorizontalBlock {
     }
 
     @Override
+    public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
+        if(!pLevel.isClientSide){
+            NetworkHooks.openGui((ServerPlayerEntity) pPlayer,
+                new SimpleNamedContainerProvider((id, playerInventory, playerEntity) -> new SewingMachineContainer(ModContainers.SEWING_CONTAINER, id, playerEntity.inventory, (SewingMachineBlockEntity) pLevel.getBlockEntity(pPos)), StringTextComponent.EMPTY));
+        }
+        return ActionResultType.SUCCESS;
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
@@ -89,5 +113,16 @@ public class SewingMachineBlock extends HorizontalBlock {
         }
 
         return shape;
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return new SewingMachineBlockEntity();
     }
 }

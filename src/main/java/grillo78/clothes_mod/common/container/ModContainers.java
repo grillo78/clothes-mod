@@ -1,6 +1,7 @@
 package grillo78.clothes_mod.common.container;
 
 import grillo78.clothes_mod.ClothesMod;
+import grillo78.clothes_mod.common.block_entities.SewingMachineBlockEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -10,6 +11,7 @@ public class ModContainers {
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, ClothesMod.MOD_ID);
 
     public static final ContainerType<InventoryContainer> INVENTORY_CONTAINER = register("inventory", IForgeContainerType.create(((windowId, inv, data) -> new InventoryContainer(ModContainers.INVENTORY_CONTAINER, windowId, inv.player))));
+    public static final ContainerType<SewingMachineContainer> SEWING_CONTAINER = register("sewing", IForgeContainerType.create(((windowId, inv, data) -> new SewingMachineContainer(ModContainers.SEWING_CONTAINER, windowId, inv, new SewingMachineBlockEntity()))));
 
     private static <T extends ContainerType<?>> T register(String name, T containerType) {
         CONTAINERS.register(name, () -> containerType);

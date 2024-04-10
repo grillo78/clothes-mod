@@ -4,12 +4,15 @@ import grillo78.clothes_mod.client.KeyBinds;
 import grillo78.clothes_mod.client.datagen.ModItemModelProvider;
 import grillo78.clothes_mod.client.entity.ClothesLayer;
 import grillo78.clothes_mod.client.screen.InventoryScreen;
+import grillo78.clothes_mod.client.screen.SewingMachineScreen;
+import grillo78.clothes_mod.common.block_entities.ModBlockEntities;
 import grillo78.clothes_mod.common.blocks.ModBlocks;
 import grillo78.clothes_mod.common.capabilities.ClothesProvider;
 import grillo78.clothes_mod.common.container.ModContainers;
 import grillo78.clothes_mod.common.items.ModItems;
 import grillo78.clothes_mod.common.network.PacketHandler;
 import grillo78.clothes_mod.common.network.packets.OpenInventory;
+import grillo78.clothes_mod.common.recipes.ModRecipes;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,7 +47,9 @@ public class ClothesMod {
 
         ModContainers.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModBlockEntities.BLOCK_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModRecipes.Serializers.SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
@@ -79,6 +84,7 @@ public class ClothesMod {
             renderer.addLayer(new ClothesLayer(renderer));
         });
         ScreenManager.register(ModContainers.INVENTORY_CONTAINER, InventoryScreen::new);
+        ScreenManager.register(ModContainers.SEWING_CONTAINER, SewingMachineScreen::new);
     }
 
     @OnlyIn(Dist.CLIENT)
