@@ -1,19 +1,19 @@
-package grillo78.clothes_mod.common.container;
+package grillo78.clothes_mod.common.menu;
 
 import grillo78.clothes_mod.common.capabilities.ClothesProvider;
-import grillo78.clothes_mod.common.container.slots.ClothSlot;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import grillo78.clothes_mod.common.menu.slots.ClothSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 
-public class InventoryContainer extends Container {
-    public InventoryContainer(@Nullable ContainerType<?> pMenuType, int pContainerId, PlayerEntity player) {
+public class InventoryMenu extends AbstractContainerMenu {
+    public InventoryMenu(@Nullable MenuType<?> pMenuType, int pContainerId, Player player) {
         super(pMenuType, pContainerId);
         player.getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap->{
                 addSlot(new ClothSlot(cap.getInventory(), 0,80,8));
@@ -26,7 +26,7 @@ public class InventoryContainer extends Container {
                 addSlot(new ClothSlot(cap.getInventory(), 7,152,26));
                 addSlot(new ClothSlot(cap.getInventory(), 8,98,44));
         });
-        addPlayerSlots(new InvWrapper(player.inventory));
+        addPlayerSlots(new InvWrapper(player.getInventory()));
     }
 
     protected void addPlayerSlots(InvWrapper playerInventory) {
@@ -50,12 +50,12 @@ public class InventoryContainer extends Container {
     }
 
     @Override
-    public boolean stillValid(PlayerEntity pPlayer) {
+    public boolean stillValid(Player pPlayer) {
         return true;
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(Player playerIn, int index) {
         ItemStack transferred = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 

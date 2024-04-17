@@ -3,9 +3,9 @@ package grillo78.clothes_mod.common.network;
 import grillo78.clothes_mod.ClothesMod;
 import grillo78.clothes_mod.common.network.packets.OpenInventory;
 import grillo78.clothes_mod.common.network.packets.SyncCap;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 public class PacketHandler {
     public static final String PROTOCOL_VERSION = "1";

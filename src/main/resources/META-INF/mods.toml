@@ -1,30 +1,30 @@
-modLoader="javafml"
-loaderVersion="[36,)"
-license="All rights reserved"
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
 [[mods]]
-modId="clothes_mod"
-version="${file.jarVersion}"
-displayName="Clothes Mod"
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="clothes_mod.png"
+logoFile = "${mod_id}.png"
 #credits="Thanks for this example mod goes to Java"
-authors="grillo78"
-description='''
-This mod is to implement a clothing system to the game without use the armor slots allowing you customize your appearence without remove the protection
+authors = "${mod_authors}"
+description = '''
+This mod is to implement a clothing system to the game without use the armor slots allowing you customize your appearence without remove the protection.
 '''
-[[dependencies.clothes_mod]]
-    modId="forge"
-    mandatory=true
-    versionRange="[36,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.clothes_mod]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.16.5,1.17)"
-    ordering="NONE"
-    side="BOTH"
+[[dependencies.${ mod_id }]]
+modId="forge"
+mandatory=true
+versionRange="${forge_version_range}"
+ordering="NONE"
+side="BOTH"
+[[dependencies.${ mod_id }]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"

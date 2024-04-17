@@ -3,19 +3,19 @@ package grillo78.clothes_mod.common.network.packets;
 import grillo78.clothes_mod.common.capabilities.ClothesProvider;
 import grillo78.clothes_mod.common.network.IMessage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 public class SyncCap implements IMessage<SyncCap> {
 
-    private CompoundNBT compoundNBT = new CompoundNBT();
+    private CompoundTag compoundNBT = new CompoundTag();
     private int id;
 
-    public SyncCap(INBT compoundNBT, int id) {
+    public SyncCap(Tag compoundNBT, int id) {
         this.compoundNBT.put("inv", compoundNBT);
         this.id = id;
     }
@@ -24,13 +24,13 @@ public class SyncCap implements IMessage<SyncCap> {
     }
 
     @Override
-    public void encode(SyncCap message, PacketBuffer buffer) {
+    public void encode(SyncCap message, FriendlyByteBuf buffer) {
         buffer.writeNbt(message.compoundNBT);
         buffer.writeInt(message.id);
     }
 
     @Override
-    public SyncCap decode(PacketBuffer buffer) {
+    public SyncCap decode(FriendlyByteBuf buffer) {
         return new SyncCap(buffer.readNbt().get("inv"), buffer.readInt());
     }
 

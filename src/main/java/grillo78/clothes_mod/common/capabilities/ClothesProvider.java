@@ -1,18 +1,14 @@
 package grillo78.clothes_mod.common.capabilities;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class ClothesProvider implements ICapabilityProvider, ICapabilitySerializable {
 
-    @CapabilityInject(IClothesInvWrapper.class)
-    public static final Capability<IClothesInvWrapper> CLOTHES_INVENTORY = null;
+    public static final Capability<IClothesInvWrapper> CLOTHES_INVENTORY = CapabilityManager.get(new CapabilityToken<>(){});;
     private final LazyOptional<IClothesInvWrapper> inventory;
 
     public ClothesProvider() {
@@ -28,14 +24,14 @@ public class ClothesProvider implements ICapabilityProvider, ICapabilitySerializ
     }
 
     @Override
-    public INBT serializeNBT() {
-        INBT nbt = inventory.map(items -> items.writeNBT())
-                .orElseGet(CompoundNBT::new);
+    public Tag serializeNBT() {
+        Tag nbt = inventory.map(items -> items.writeNBT())
+                .orElseGet(CompoundTag::new);
         return nbt;
     }
 
     @Override
-    public void deserializeNBT(INBT nbt) {
+    public void deserializeNBT(Tag nbt) {
         inventory.ifPresent(items -> items.readNBT(nbt));
     }
 }

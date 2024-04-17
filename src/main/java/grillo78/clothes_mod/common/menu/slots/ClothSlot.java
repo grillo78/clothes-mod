@@ -1,8 +1,8 @@
-package grillo78.clothes_mod.common.container.slots;
+package grillo78.clothes_mod.common.menu.slots;
 
 import grillo78.clothes_mod.common.items.Cloth;
 import grillo78.clothes_mod.common.items.ClothesSlot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 

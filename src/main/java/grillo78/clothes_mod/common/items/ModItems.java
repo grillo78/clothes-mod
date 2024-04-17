@@ -1,47 +1,50 @@
 package grillo78.clothes_mod.common.items;
 
 import grillo78.clothes_mod.ClothesMod;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Supplier;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ClothesMod.MOD_ID);
 
-    public static final ClothItem GLASSES = registerClothes("glasses", ClothesSlot.HEAD);
-    public static final ClothItem GREEN_CAP = registerClothes("green_cap", ClothesSlot.HEAD);
-    public static final ClothItem RED_WHITE_CAP = registerClothes("red_white_cap", ClothesSlot.HEAD);
+    public static final RegistryObject<ClothItem> GLASSES = registerClothes("glasses", ClothesSlot.HEAD);
+    public static final RegistryObject<ClothItem> GREEN_CAP = registerClothes("green_cap", ClothesSlot.HEAD);
+    public static final RegistryObject<ClothItem> RED_WHITE_CAP = registerClothes("red_white_cap", ClothesSlot.HEAD);
 
-    public static final ClothItem ANCHOR_SHIRT = registerClothes("anchor_shirt", ClothesSlot.SHIRT);
-    public static final ClothItem DINOSAUR_SHIRT = registerClothes("dinosaur_shirt", ClothesSlot.SHIRT);
-    public static final ClothItem PIZZA_SHIRT = registerClothes("pizza_shirt", ClothesSlot.SHIRT);
-    public static final ClothItem PLANET_SHIRT = registerClothes("planet_shirt", ClothesSlot.SHIRT);
-    public static final ClothItem SKULL_SHIRT = registerClothes("skull_shirt", ClothesSlot.SHIRT);
-    public static final ClothItem SMILE_SHIRT = registerClothes("smile_shirt", ClothesSlot.SHIRT);
-    public static final ClothItem COOKIE_SHIRT = registerClothes("cookie_shirt", ClothesSlot.SHIRT);
+    public static final RegistryObject<ClothItem> ANCHOR_SHIRT = registerClothes("anchor_shirt", ClothesSlot.SHIRT);
+    public static final RegistryObject<ClothItem> DINOSAUR_SHIRT = registerClothes("dinosaur_shirt", ClothesSlot.SHIRT);
+    public static final RegistryObject<ClothItem> PIZZA_SHIRT = registerClothes("pizza_shirt", ClothesSlot.SHIRT);
+    public static final RegistryObject<ClothItem> PLANET_SHIRT = registerClothes("planet_shirt", ClothesSlot.SHIRT);
+    public static final RegistryObject<ClothItem> SKULL_SHIRT = registerClothes("skull_shirt", ClothesSlot.SHIRT);
+    public static final RegistryObject<ClothItem> SMILE_SHIRT = registerClothes("smile_shirt", ClothesSlot.SHIRT);
+    public static final RegistryObject<ClothItem> COOKIE_SHIRT = registerClothes("cookie_shirt", ClothesSlot.SHIRT);
 
-    public static final ClothItem BROWN_SHORTS = registerClothes("brown_shorts", ClothesSlot.PANTS);
-    public static final ClothItem GRAY_PANTS = registerClothes("gray_pants", ClothesSlot.PANTS);
-    public static final ClothItem DARK_BLUE_SHORTS = registerClothes("dark_blue_shorts", ClothesSlot.PANTS);
-    public static final ClothItem DARK_BLUE_JEANS = registerClothes("dark_blue_jeans", ClothesSlot.PANTS);
-    public static final ClothItem BLUE_JEANS = registerClothes("blue_jeans", ClothesSlot.PANTS);
-    public static final ClothItem LIGHT_GRAY_JEANS = registerClothes("light_gray_pants", ClothesSlot.PANTS);
-    public static final ClothItem PURPLE_JEANS = registerClothes("purple_pants", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> BROWN_SHORTS = registerClothes("brown_shorts", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> GRAY_PANTS = registerClothes("gray_pants", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> DARK_BLUE_SHORTS = registerClothes("dark_blue_shorts", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> DARK_BLUE_JEANS = registerClothes("dark_blue_jeans", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> BLUE_JEANS = registerClothes("blue_jeans", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> LIGHT_GRAY_JEANS = registerClothes("light_gray_pants", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> PURPLE_JEANS = registerClothes("purple_pants", ClothesSlot.PANTS);
 
-    public static final ClothItem BLUE_SHOES = registerClothes("blue_shoes", ClothesSlot.SHOES);
-    public static final ClothItem GREEN_SHOES = registerClothes("green_shoes", ClothesSlot.SHOES);
-    public static final ClothItem DARK_BLUE_SANDALS = registerClothes("dark_blue_sandals", ClothesSlot.SHOES);
-    public static final ClothItem LIGHT_BLUE_SANDALS = registerClothes("light_blue_shoes", ClothesSlot.SHOES);
-    public static final ClothItem BLACK_SHOES = registerClothes("black_shoes", ClothesSlot.SHOES);
-    public static final ClothItem GRAY_SANDALS = registerClothes("gray_sandals", ClothesSlot.SHOES);
-    public static final ClothItem DARK_CYAN_SHOES = registerClothes("dark_cyan_shoes", ClothesSlot.SHOES);
+    public static final RegistryObject<ClothItem> BLUE_SHOES = registerClothes("blue_shoes", ClothesSlot.SHOES);
+    public static final RegistryObject<ClothItem> GREEN_SHOES = registerClothes("green_shoes", ClothesSlot.SHOES);
+    public static final RegistryObject<ClothItem> DARK_BLUE_SANDALS = registerClothes("dark_blue_sandals", ClothesSlot.SHOES);
+    public static final RegistryObject<ClothItem> LIGHT_BLUE_SANDALS = registerClothes("light_blue_shoes", ClothesSlot.SHOES);
+    public static final RegistryObject<ClothItem> BLACK_SHOES = registerClothes("black_shoes", ClothesSlot.SHOES);
+    public static final RegistryObject<ClothItem> GRAY_SANDALS = registerClothes("gray_sandals", ClothesSlot.SHOES);
+    public static final RegistryObject<ClothItem> DARK_CYAN_SHOES = registerClothes("dark_cyan_shoes", ClothesSlot.SHOES);
 
-    private static ClothItem registerClothes(String name, ClothesSlot slot){
-        return register(name, new ClothItem(new Item.Properties().tab(ClothesItemGroup.INSTANCE), slot));
+    private static RegistryObject<ClothItem> registerClothes(String name, ClothesSlot slot){
+        return register(name, ()->new ClothItem(new Item.Properties(), slot));
+//        return register(name, ()->new ClothItem(new Item.Properties(), slot));
     }
 
-    public static <T extends Item> T register(String name, T itemType) {
-        ITEMS.register(name, () -> itemType);
-        return itemType;
+    public static <T extends Item, V extends Supplier<T>> RegistryObject<T> register(String name, V itemSupplier) {
+        return ITEMS.register(name, itemSupplier);
     }
 }

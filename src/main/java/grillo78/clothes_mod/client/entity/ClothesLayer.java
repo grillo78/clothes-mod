@@ -1,26 +1,27 @@
 package grillo78.clothes_mod.client.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import grillo78.clothes_mod.common.capabilities.ClothesProvider;
 import grillo78.clothes_mod.common.items.Cloth;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 
-public class ClothesLayer extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> {
+public class ClothesLayer<T extends LocalPlayer, M extends PlayerModel<T>> extends RenderLayer<T, M>  {
 
-    public ClothesLayer(IEntityRenderer p_i50926_1_) {
-        super(p_i50926_1_);
+
+    public ClothesLayer(LivingEntityRenderer<T, M> pRenderer) {
+        super(pRenderer);
     }
 
     @Override
-    public void render(MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight, AbstractClientPlayerEntity pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         pLivingEntity.getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(inv -> {
             for (int i = 0; i < inv.getInventory().getSlots(); i++) {
                 if (inv.getInventory().getStackInSlot(i).getItem() instanceof Cloth)
-                    ((Cloth) inv.getInventory().getStackInSlot(i).getItem()).renderCloth(pMatrixStack, pBuffer, pPackedLight, pLivingEntity, pLimbSwing, pLimbSwingAmount, pPartialTicks, pAgeInTicks, pNetHeadYaw, pHeadPitch, getParentModel());
+                    ((Cloth) inv.getInventory().getStackInSlot(i).getItem()).renderCloth(pPoseStack, pBuffer, pPackedLight, pLivingEntity, pLimbSwing, pLimbSwingAmount, pPartialTick, pAgeInTicks, pNetHeadYaw, pHeadPitch, getParentModel());
             }
         });
     }
