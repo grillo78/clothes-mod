@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 public class ClothesProvider implements ICapabilityProvider, ICapabilitySerializable {
 
-    public static final Capability<IClothesInvWrapper> CLOTHES_INVENTORY = CapabilityManager.get(new CapabilityToken<>(){});;
+    public static final Capability<IClothesInvWrapper> CLOTHES_INVENTORY = CapabilityManager.get(new CapabilityToken<>(){});
     private final LazyOptional<IClothesInvWrapper> inventory;
 
     public ClothesProvider() {

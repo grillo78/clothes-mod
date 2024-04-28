@@ -42,7 +42,6 @@ public class InventoryScreen extends AbstractContainerScreen<InventoryMenu> {
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTicks, int pX, int pY) {
-        PoseStack poseStack = pGuiGraphics.pose();
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
         pGuiGraphics.blit(CLOTHES_INVENTORY_LOCATION, relX, relY, 0, 0, this.imageWidth, this.imageHeight);

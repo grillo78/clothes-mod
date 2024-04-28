@@ -74,10 +74,9 @@ public class SewingMachineBlock extends HorizontalDirectionalBlock implements En
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide) {
+        if (!pLevel.isClientSide)
             if (pLevel.getBlockEntity(pPos) instanceof SewingMachineBlockEntity blockEntity)
                 NetworkHooks.openScreen((ServerPlayer) pPlayer, blockEntity, pPos);
-        }
         return InteractionResult.SUCCESS;
     }
 
