@@ -1,0 +1,13 @@
+{
+  "type": "clothes_mod:sewing_machine",
+  "ingredients": [
+    {
+      "item": "minecraft:gray_wool",
+      "amount": 3
+    }
+  ],
+  "result": {
+    "item": "clothes_mod:gray_shorts",
+    "count": 1
+  }
+}

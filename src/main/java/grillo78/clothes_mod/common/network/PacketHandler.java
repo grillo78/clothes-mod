@@ -1,6 +1,7 @@
 package grillo78.clothes_mod.common.network;
 
 import grillo78.clothes_mod.ClothesMod;
+import grillo78.clothes_mod.common.network.packets.Craft;
 import grillo78.clothes_mod.common.network.packets.OpenInventory;
 import grillo78.clothes_mod.common.network.packets.SyncCap;
 import net.minecraft.util.ResourceLocation;
@@ -26,6 +27,7 @@ public class PacketHandler {
                 .simpleChannel();
         register(OpenInventory.class, new OpenInventory());
         register(SyncCap.class, new SyncCap());
+        register(Craft.class, new Craft());
     }
 
     private static <T> void register(Class<T> clazz, IMessage<T> message) {

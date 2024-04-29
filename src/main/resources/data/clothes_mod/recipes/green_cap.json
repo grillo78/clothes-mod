@@ -1,0 +1,17 @@
+{
+  "type": "clothes_mod:sewing_machine",
+  "ingredients": [
+    {
+      "item": "minecraft:green_wool",
+      "amount": 3
+    },
+    {
+      "item": "minecraft:black_wool",
+      "amount": 1
+    }
+  ],
+  "result": {
+    "item": "clothes_mod:green_cap",
+    "count": 1
+  }
+}

@@ -1,12 +1,12 @@
 package grillo78.clothes_mod.common.blocks;
 
-import grillo78.clothes_mod.common.block_entities.SewingMachineBlockEntity;
+import grillo78.clothes_mod.client.screen.SewingMachineScreen;
 import grillo78.clothes_mod.common.container.InventoryContainer;
 import grillo78.clothes_mod.common.container.ModContainers;
-import grillo78.clothes_mod.common.container.SewingMachineContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
@@ -25,6 +25,8 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -75,10 +77,8 @@ public class SewingMachineBlock extends HorizontalBlock {
 
     @Override
     public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
-        if(!pLevel.isClientSide){
-            NetworkHooks.openGui((ServerPlayerEntity) pPlayer,
-                new SimpleNamedContainerProvider((id, playerInventory, playerEntity) -> new SewingMachineContainer(ModContainers.SEWING_CONTAINER, id, playerEntity.inventory, (SewingMachineBlockEntity) pLevel.getBlockEntity(pPos)), StringTextComponent.EMPTY));
-        }
+        if (pLevel.isClientSide)
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()-> Minecraft.getInstance().setScreen(new SewingMachineScreen(StringTextComponent.EMPTY)));
         return ActionResultType.SUCCESS;
     }
 
@@ -113,16 +113,5 @@ public class SewingMachineBlock extends HorizontalBlock {
         }
 
         return shape;
-    }
-
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new SewingMachineBlockEntity();
     }
 }
