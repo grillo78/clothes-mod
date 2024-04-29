@@ -12,6 +12,6 @@ public final class DataGenerators {
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
-        event.getGenerator().addProvider(true, new ModItemModelProvider(event.getGenerator().getPackOutput(), event.getExistingFileHelper()));
+        event.getGenerator().addProvider(true, new ModItemModelProvider(event.getGenerator(), event.getExistingFileHelper()));
     }
 }

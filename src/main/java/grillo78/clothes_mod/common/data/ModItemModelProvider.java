@@ -2,7 +2,7 @@ package grillo78.clothes_mod.common.data;
 
 import grillo78.clothes_mod.ClothesMod;
 import grillo78.clothes_mod.common.items.ModItems;
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -14,7 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModItemModelProvider extends ItemModelProvider {
 
-    public ModItemModelProvider(PackOutput generator, ExistingFileHelper existingFileHelper) {
+    public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, ClothesMod.MOD_ID, existingFileHelper);
     }
 

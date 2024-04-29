@@ -37,7 +37,7 @@ public class Craft implements IMessage<Craft> {
     @Override
     public void handle(Craft message, Supplier<NetworkEvent.Context> supplier) {
         supplier.get().enqueueWork(() -> {
-            Optional<? extends Recipe<?>> recipe = supplier.get().getSender().level().getRecipeManager().byKey(message.recipe);
+            Optional<? extends Recipe<?>> recipe = supplier.get().getSender().level.getRecipeManager().byKey(message.recipe);
             if (recipe.isPresent() && recipe.get() instanceof SewingMachineRecipe) {
                 SewingMachineRecipe sewingRecipe = (SewingMachineRecipe) recipe.get();
                 boolean invalidateCraft = false;
@@ -61,7 +61,7 @@ public class Craft implements IMessage<Craft> {
                             }
                         }
                     }
-                    supplier.get().getSender().drop(new ItemStack(sewingRecipe.getResult()),false, false);
+                    supplier.get().getSender().drop(sewingRecipe.getResultItem(),false, false);
                 }
             }
         });

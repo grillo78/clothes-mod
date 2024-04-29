@@ -40,7 +40,7 @@ public class ModItems {
     public static final RegistryObject<ClothItem> DARK_CYAN_SHOES = registerClothes("cyan_shoes", ClothesSlot.SHOES);
 
     private static RegistryObject<ClothItem> registerClothes(String name, ClothesSlot slot){
-        return register(name, ()->new ClothItem(new Item.Properties(), slot));
+        return register(name, ()->new ClothItem(new Item.Properties().tab(ClothesMod.TAB), slot));
 //        return register(name, ()->new ClothItem(new Item.Properties(), slot));
     }
 

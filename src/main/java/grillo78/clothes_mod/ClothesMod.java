@@ -14,7 +14,6 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -43,13 +42,17 @@ import org.lwjgl.glfw.GLFW;
 @Mod(ClothesMod.MOD_ID)
 public class ClothesMod {
     public static final String MOD_ID = "clothes_mod";
-    private static final ResourceKey<CreativeModeTab> CLOTHES = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(MOD_ID, "tab"));
+    public static final CreativeModeTab TAB = new CreativeModeTab("clothes"){
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(ModBlocks.SEWING_MACHINE.get());
+        }
+    };
 
     public ClothesMod() {
         MinecraftForge.EVENT_BUS.register(new SpecialRuntimeEvents());
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerTabs);
         MinecraftForge.EVENT_BUS.addListener(this::onEntityEnterWorld);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerClone);
 
@@ -67,25 +70,13 @@ public class ClothesMod {
         });
     }
 
-    public void registerTabs(RegisterEvent event) {
-        event.register(Registries.CREATIVE_MODE_TAB, helper -> {
-            helper.register(CLOTHES, CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.SEWING_MACHINE.get()))
-                    .title(Component.literal("Clothes"))
-                    .displayItems((params, output) -> {
-                        ModItems.ITEMS.getEntries().forEach(itemRegistryObject -> output.accept(new ItemStack(itemRegistryObject.get())));
-                    })
-                    .build());
-
-        });
-    }
-
     public void setup(FMLCommonSetupEvent event) {
         PacketHandler.init();
     }
 
     private void onEntityEnterWorld(final PlayerEvent.PlayerLoggedInEvent event) {
         event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
-            cap.syncToAll(event.getEntity().level());
+            cap.syncToAll(event.getEntity().level);
         });
     }
 

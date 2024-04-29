@@ -77,7 +77,7 @@ public class SewingMachineRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack assemble(Container pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(Container pContainer) {
         return new ItemStack(result, resultAmount);
     }
 
@@ -87,12 +87,8 @@ public class SewingMachineRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+    public ItemStack getResultItem() {
         return new ItemStack(result, resultAmount);
-    }
-
-    public Item getResult() {
-        return result;
     }
 
     @Override
