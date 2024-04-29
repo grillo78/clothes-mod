@@ -1,0 +1,13 @@
+{
+  "type": "clothes_mod:sewing_machine",
+  "ingredients": [
+    {
+      "item": "minecraft:cyan_wool",
+      "amount": 1
+    }
+  ],
+  "result": {
+    "item": "clothes_mod:cyan_shoes",
+    "count": 1
+  }
+}

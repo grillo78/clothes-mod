@@ -23,21 +23,21 @@ public class ModItems {
     public static final RegistryObject<ClothItem> SMILE_SHIRT = registerClothes("smile_shirt", ClothesSlot.SHIRT);
     public static final RegistryObject<ClothItem> COOKIE_SHIRT = registerClothes("cookie_shirt", ClothesSlot.SHIRT);
 
-    public static final RegistryObject<ClothItem> BROWN_SHORTS = registerClothes("brown_shorts", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> GRAY_SHORTS = registerClothes("gray_shorts", ClothesSlot.PANTS);
     public static final RegistryObject<ClothItem> GRAY_PANTS = registerClothes("gray_pants", ClothesSlot.PANTS);
-    public static final RegistryObject<ClothItem> DARK_BLUE_SHORTS = registerClothes("dark_blue_shorts", ClothesSlot.PANTS);
-    public static final RegistryObject<ClothItem> DARK_BLUE_JEANS = registerClothes("dark_blue_jeans", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> DARK_BLUE_SHORTS = registerClothes("black_shorts", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> DARK_BLUE_JEANS = registerClothes("black_jeans", ClothesSlot.PANTS);
     public static final RegistryObject<ClothItem> BLUE_JEANS = registerClothes("blue_jeans", ClothesSlot.PANTS);
-    public static final RegistryObject<ClothItem> LIGHT_GRAY_JEANS = registerClothes("light_gray_pants", ClothesSlot.PANTS);
+    public static final RegistryObject<ClothItem> LIGHT_GRAY_SHORTS = registerClothes("light_gray_shorts", ClothesSlot.PANTS);
     public static final RegistryObject<ClothItem> PURPLE_JEANS = registerClothes("purple_pants", ClothesSlot.PANTS);
 
     public static final RegistryObject<ClothItem> BLUE_SHOES = registerClothes("blue_shoes", ClothesSlot.SHOES);
     public static final RegistryObject<ClothItem> GREEN_SHOES = registerClothes("green_shoes", ClothesSlot.SHOES);
-    public static final RegistryObject<ClothItem> DARK_BLUE_SANDALS = registerClothes("dark_blue_sandals", ClothesSlot.SHOES);
+    public static final RegistryObject<ClothItem> DARK_BLUE_SANDALS = registerClothes("black_sandals", ClothesSlot.SHOES);
     public static final RegistryObject<ClothItem> LIGHT_BLUE_SANDALS = registerClothes("light_blue_shoes", ClothesSlot.SHOES);
     public static final RegistryObject<ClothItem> BLACK_SHOES = registerClothes("black_shoes", ClothesSlot.SHOES);
     public static final RegistryObject<ClothItem> GRAY_SANDALS = registerClothes("gray_sandals", ClothesSlot.SHOES);
-    public static final RegistryObject<ClothItem> DARK_CYAN_SHOES = registerClothes("dark_cyan_shoes", ClothesSlot.SHOES);
+    public static final RegistryObject<ClothItem> DARK_CYAN_SHOES = registerClothes("cyan_shoes", ClothesSlot.SHOES);
 
     private static RegistryObject<ClothItem> registerClothes(String name, ClothesSlot slot){
         return register(name, ()->new ClothItem(new Item.Properties(), slot));

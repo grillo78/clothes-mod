@@ -3,8 +3,6 @@ package grillo78.clothes_mod;
 import grillo78.clothes_mod.client.KeyBinds;
 import grillo78.clothes_mod.client.ModModelLayers;
 import grillo78.clothes_mod.client.screen.InventoryScreen;
-import grillo78.clothes_mod.client.screen.SewingMachineScreen;
-import grillo78.clothes_mod.common.block_entities.ModBlockEntities;
 import grillo78.clothes_mod.common.blocks.ModBlocks;
 import grillo78.clothes_mod.common.capabilities.ClothesProvider;
 import grillo78.clothes_mod.common.items.ModItems;
@@ -57,7 +55,6 @@ public class ClothesMod {
 
         ModMenus.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModBlockEntities.BLOCK_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModRecipes.Serializers.SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModRecipes.Types.TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -111,7 +108,6 @@ public class ClothesMod {
     @OnlyIn(Dist.CLIENT)
     public void doClientStuff(FMLClientSetupEvent event) {
         MenuScreens.register(ModMenus.INVENTORY_CONTAINER, InventoryScreen::new);
-        MenuScreens.register(ModMenus.SEWING_CONTAINER, SewingMachineScreen::new);
     }
 
     @OnlyIn(Dist.CLIENT)

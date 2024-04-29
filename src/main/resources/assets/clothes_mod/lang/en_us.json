@@ -10,20 +10,21 @@
   "item.clothes_mod.skull_shirt": "Skull T-Shirt",
   "item.clothes_mod.smile_shirt": "Smile T-Shirt",
   "item.clothes_mod.cookie_shirt": "Cookie T-Shirt",
-  "item.clothes_mod.brown_shorts": "Brown Shorts",
+  "item.clothes_mod.gray_shorts": "Gray Shorts",
   "item.clothes_mod.gray_pants": "Gray Pants",
-  "item.clothes_mod.dark_blue_shorts": "Dark Blue Shorts",
-  "item.clothes_mod.dark_blue_jeans": "Dark Blue Jeans",
+  "item.clothes_mod.black_shorts": "Black Shorts",
+  "item.clothes_mod.black_jeans": "Black Jeans",
   "item.clothes_mod.blue_jeans": "Blue Jeans",
-  "item.clothes_mod.light_gray_pants": "Light Gray Pants",
+  "item.clothes_mod.light_gray_shorts": "Light Gray Shorts",
   "item.clothes_mod.purple_pants": "Purple Pants",
   "item.clothes_mod.blue_shoes": "Blue Shoes",
   "item.clothes_mod.green_shoes": "Green Shoes",
-  "item.clothes_mod.dark_blue_shoes": "Dark Blue Shoes",
+  "item.clothes_mod.black_sandals": "Black Shoes",
   "item.clothes_mod.light_blue_shoes": "Light Blue Shoes",
   "item.clothes_mod.black_shoes": "Black Shoes",
   "item.clothes_mod.gray_sandals": "Gray Sandals",
-  "item.clothes_mod.dark_cyan_shoes": "Dark Cyan Shoes",
+  "item.clothes_mod.cyan_shoes": "Cyan Shoes",
 
-  "block.clothes_mod.sewing_machine": "Sewing Machine"
+  "block.clothes_mod.sewing_machine": "Sewing Machine",
+  "gui.craft": "Craft"
 }

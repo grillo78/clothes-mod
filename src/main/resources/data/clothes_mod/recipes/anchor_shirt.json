@@ -1,0 +1,17 @@
+{
+  "type": "clothes_mod:sewing_machine",
+  "ingredients": [
+    {
+      "item": "minecraft:blue_wool",
+      "amount": 1
+    },
+    {
+      "item": "minecraft:string",
+      "amount": 3
+    }
+  ],
+  "result": {
+    "item": "clothes_mod:anchor_shirt",
+    "count": 1
+  }
+}

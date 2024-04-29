@@ -1,0 +1,13 @@
+{
+  "type": "clothes_mod:sewing_machine",
+  "ingredients": [
+    {
+      "item": "minecraft:lime_wool",
+      "amount": 1
+    }
+  ],
+  "result": {
+    "item": "clothes_mod:green_shoes",
+    "count": 1
+  }
+}

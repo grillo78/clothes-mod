@@ -1,6 +1,7 @@
 package grillo78.clothes_mod.common.network;
 
 import grillo78.clothes_mod.ClothesMod;
+import grillo78.clothes_mod.common.network.packets.Craft;
 import grillo78.clothes_mod.common.network.packets.OpenInventory;
 import grillo78.clothes_mod.common.network.packets.SyncCap;
 import net.minecraft.resources.ResourceLocation;
@@ -18,14 +19,12 @@ public class PacketHandler {
      */
     public static void init() {
         // Create the Network channel
-        INSTANCE = NetworkRegistry.ChannelBuilder
-                .named(new ResourceLocation(ClothesMod.MOD_ID, "network"))
-                .networkProtocolVersion(() -> PROTOCOL_VERSION)
-                .clientAcceptedVersions(PROTOCOL_VERSION::equals)
-                .serverAcceptedVersions(PROTOCOL_VERSION::equals)
-                .simpleChannel();
+        INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(ClothesMod.MOD_ID, "network"),() -> PROTOCOL_VERSION,
+                PROTOCOL_VERSION::equals,
+                PROTOCOL_VERSION::equals);
         register(OpenInventory.class, new OpenInventory());
         register(SyncCap.class, new SyncCap());
+        register(Craft.class, new Craft());
     }
 
     private static <T> void register(Class<T> clazz, IMessage<T> message) {

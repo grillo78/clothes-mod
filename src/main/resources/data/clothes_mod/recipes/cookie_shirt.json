@@ -1,0 +1,25 @@
+{
+  "type": "clothes_mod:sewing_machine",
+  "ingredients": [
+    {
+      "item": "minecraft:cyan_wool",
+      "amount": 1
+    },
+    {
+      "item": "minecraft:string",
+      "amount": 3
+    },
+    {
+      "item": "minecraft:brown_dye",
+      "amount": 1
+    },
+    {
+      "item": "minecraft:black_dye",
+      "amount": 1
+    }
+  ],
+  "result": {
+    "item": "clothes_mod:cookie_shirt",
+    "count": 1
+  }
+}

@@ -1,6 +1,6 @@
 {
   "parent": "clothes_mod:item/clothes",
   "textures": {
-    "0": "clothes_mod:entity/clothes/light_gray_pants"
+    "0": "clothes_mod:entity/clothes/cyan_shoes"
   }
 }

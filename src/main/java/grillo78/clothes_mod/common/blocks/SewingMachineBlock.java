@@ -1,10 +1,10 @@
 package grillo78.clothes_mod.common.blocks;
 
-import grillo78.clothes_mod.common.block_entities.ModBlockEntities;
-import grillo78.clothes_mod.common.block_entities.SewingMachineBlockEntity;
+import grillo78.clothes_mod.client.screen.SewingMachineScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -12,11 +12,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
@@ -24,12 +20,12 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
-import org.jetbrains.annotations.Nullable;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 
 import java.util.stream.Stream;
 
-public class SewingMachineBlock extends HorizontalDirectionalBlock implements EntityBlock {
+public class SewingMachineBlock extends HorizontalDirectionalBlock {
     private static final VoxelShape NORTH_SHAPE = Stream.of(
             Block.box(3, 6, 5, 14, 10, 11),
             Block.box(10, 2, 6, 14, 6, 10),
@@ -74,9 +70,8 @@ public class SewingMachineBlock extends HorizontalDirectionalBlock implements En
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide)
-            if (pLevel.getBlockEntity(pPos) instanceof SewingMachineBlockEntity blockEntity)
-                NetworkHooks.openScreen((ServerPlayer) pPlayer, blockEntity, pPos);
+        if (pLevel.isClientSide)
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()-> Minecraft.getInstance().setScreen(new SewingMachineScreen(Component.empty())));
         return InteractionResult.SUCCESS;
     }
 
@@ -84,17 +79,6 @@ public class SewingMachineBlock extends HorizontalDirectionalBlock implements En
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         super.createBlockStateDefinition(pBuilder);
         pBuilder.add(FACING);
-    }
-
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return type == ModBlockEntities.SEWING_MACHINE.get() ? SewingMachineBlockEntity::tick : null;
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new SewingMachineBlockEntity(pPos, pState);
     }
 
     @org.jetbrains.annotations.Nullable
