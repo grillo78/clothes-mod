@@ -133,7 +133,8 @@ public class SewingMachineRecipe implements Recipe<Container> {
         public SewingMachineRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             List<Item> ingredients = new ArrayList();
             List<Integer> ingredientsAmount = new ArrayList();
-            for (int i = 0; i < pBuffer.readInt(); i++) {
+            int size = pBuffer.readInt();
+            for (int i = 0; i < size; i++) {
                 ingredients.add(ForgeRegistries.ITEMS.getValue(new ResourceLocation(pBuffer.readUtf())));
                 ingredientsAmount.add(pBuffer.readInt());
             }
@@ -147,6 +148,7 @@ public class SewingMachineRecipe implements Recipe<Container> {
         public void toNetwork(FriendlyByteBuf pBuffer, SewingMachineRecipe pRecipe) {
             pBuffer.writeInt(pRecipe.ingredients.size());
             for (int i = 0; i < pRecipe.ingredients.size(); i++) {
+                System.out.println(ForgeRegistries.ITEMS.getKey(pRecipe.ingredients.get(i)));
                 pBuffer.writeUtf(ForgeRegistries.ITEMS.getKey(pRecipe.ingredients.get(i)).toString());
                 pBuffer.writeInt(pRecipe.ingredientsAmount.get(i));
             }

@@ -1,5 +1,6 @@
 package grillo78.clothes_mod.common.blocks;
 
+import grillo78.clothes_mod.client.ClientUtil;
 import grillo78.clothes_mod.client.screen.SewingMachineScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -71,7 +72,7 @@ public class SewingMachineBlock extends HorizontalDirectionalBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (pLevel.isClientSide)
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()-> Minecraft.getInstance().setScreen(new SewingMachineScreen(Component.empty())));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()-> ClientUtil.openSewingMachineScreen());
         return InteractionResult.SUCCESS;
     }
 
@@ -110,15 +111,4 @@ public class SewingMachineBlock extends HorizontalDirectionalBlock {
 
         return shape;
     }
-
-//    @Override
-//    public boolean hasTileEntity(BlockState state) {
-//        return true;
-//    }
-//
-//    @Nullable
-//    @Override
-//    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-//        return new SewingMachineBlockEntity();
-//    }
 }
