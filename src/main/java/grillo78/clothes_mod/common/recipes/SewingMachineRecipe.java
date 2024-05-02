@@ -128,7 +128,8 @@ public class SewingMachineRecipe implements IRecipe<IInventory> {
         public SewingMachineRecipe fromNetwork(ResourceLocation pRecipeId, PacketBuffer pBuffer) {
             List<Item> ingredients = new ArrayList();
             List<Integer> ingredientsAmount = new ArrayList();
-            for (int i = 0; i < pBuffer.readInt(); i++) {
+            int size = pBuffer.readInt();
+            for (int i = 0; i < size; i++) {
                 ingredients.add(ForgeRegistries.ITEMS.getValue(new ResourceLocation(pBuffer.readUtf())));
                 ingredientsAmount.add(pBuffer.readInt());
             }

@@ -1,5 +1,6 @@
 package grillo78.clothes_mod.common.blocks;
 
+import grillo78.clothes_mod.client.ClientUtils;
 import grillo78.clothes_mod.client.screen.SewingMachineScreen;
 import grillo78.clothes_mod.common.container.InventoryContainer;
 import grillo78.clothes_mod.common.container.ModContainers;
@@ -78,7 +79,7 @@ public class SewingMachineBlock extends HorizontalBlock {
     @Override
     public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
         if (pLevel.isClientSide)
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()-> Minecraft.getInstance().setScreen(new SewingMachineScreen(StringTextComponent.EMPTY)));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()-> ClientUtils.openSewingMachine());
         return ActionResultType.SUCCESS;
     }
 
