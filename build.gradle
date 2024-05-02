@@ -206,13 +206,18 @@ tasks.named('jar', Jar).configure {
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
-        register('mavenJava', MavenPublication) {
+        mavenJava(MavenPublication) {
             artifact jar
+            artifactId = "clothes_mod"
         }
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/mcmodsrepo"
+            url = 'https://maven.fdnetworks.org/releases'
+            credentials {
+                username = System.getenv("fdnetworkUser")
+                password = System.getenv("fdnetworkPassword")
+            }
         }
     }
 }
