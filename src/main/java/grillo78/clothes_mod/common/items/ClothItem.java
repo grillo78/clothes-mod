@@ -48,11 +48,6 @@ public class ClothItem extends Item implements Cloth {
         model.renderToBuffer(pMatrixStack, pBuffer.getBuffer(RenderType.entityTranslucent(getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
     }
 
-    @Override
-    public boolean canDropOnDeath(PlayerEntity player, ItemStack stack) {
-        return true;
-    }
-
     protected ResourceLocation getTexture() {
         return new ResourceLocation(getRegistryName().getNamespace(), "textures/entity/clothes/" + getRegistryName().getPath() + ".png");
     }
