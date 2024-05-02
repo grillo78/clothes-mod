@@ -6,7 +6,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -44,6 +46,11 @@ public class ClothItem extends Item implements Cloth {
         model.young = false;
 
         model.renderToBuffer(pMatrixStack, pBuffer.getBuffer(RenderType.entityTranslucent(getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+    }
+
+    @Override
+    public boolean canDropOnDeath(PlayerEntity player, ItemStack stack) {
+        return true;
     }
 
     protected ResourceLocation getTexture() {
