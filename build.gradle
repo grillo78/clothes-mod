@@ -91,6 +91,11 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
+        clientWithCredentials {
+            parent runs.client
+            args '--username', 'grillo78', '--uuid', 'b8a6cebf-7221-4d53-b120-6e759f14fbfb'
+        }
+
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'

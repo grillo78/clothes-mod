@@ -8,8 +8,9 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.world.entity.player.Player;
 
-public class ClothesLayer<T extends LocalPlayer, M extends PlayerModel<T>> extends RenderLayer<T, M>  {
+public class ClothesLayer<T extends Player, M extends PlayerModel<T>> extends RenderLayer<T, M>  {
 
 
     public ClothesLayer(LivingEntityRenderer<T, M> pRenderer) {
