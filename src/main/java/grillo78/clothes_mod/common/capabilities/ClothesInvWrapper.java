@@ -50,7 +50,6 @@ public class ClothesInvWrapper implements IClothesInvWrapper {
     @Override
     public void readNBT(Tag compound) {
         for (int i = 0; i < inventory.getSlots(); i++) {
-            System.out.println(ItemStack.of(((CompoundTag)compound).getCompound(String.valueOf(i))));
             inventory.insertItem(i, ItemStack.of(((CompoundTag)compound).getCompound(String.valueOf(i))), false);
         }
     }
