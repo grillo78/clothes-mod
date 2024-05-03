@@ -23,6 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -45,6 +46,7 @@ public class ClothesMod {
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.addListener(this::onEntityEnterWorld);
+        MinecraftForge.EVENT_BUS.addListener(this::onStartTracking);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerClone);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerDeath);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherData);
@@ -60,7 +62,7 @@ public class ClothesMod {
         });
     }
 
-    public void gatherData(GatherDataEvent event){
+    public void gatherData(GatherDataEvent event) {
         event.getGenerator().addProvider(new ModItemModelProvider(event.getGenerator(), MOD_ID, event.getExistingFileHelper()));
     }
 
@@ -68,10 +70,18 @@ public class ClothesMod {
         PacketHandler.init();
     }
 
-    private void onEntityEnterWorld(final PlayerEvent.PlayerLoggedInEvent event) {
-        event.getPlayer().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
-            cap.syncToAll(event.getEntity().level);
-        });
+    private void onEntityEnterWorld(final EntityJoinWorldEvent event) {
+        if (!event.getWorld().isClientSide)
+            event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
+                cap.syncToAll(event.getEntity().level);
+            });
+    }
+
+    private void onStartTracking(final PlayerEvent.StartTracking event) {
+        if (!event.getEntity().level.isClientSide)
+            event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
+                cap.syncToAll(event.getEntity().level);
+            });
     }
 
     private void onPlayerClone(final PlayerEvent.Clone event) {
@@ -117,7 +127,7 @@ public class ClothesMod {
         @SubscribeEvent
         public void playerCapabilitiesInjection(final AttachCapabilitiesEvent<Entity> event) {
             if (event.getObject() instanceof PlayerEntity) {
-                event.addCapability(new ResourceLocation(MOD_ID, "clothes"), new ClothesProvider());
+                event.addCapability(new ResourceLocation(MOD_ID, "clothes"), new ClothesProvider((PlayerEntity) event.getObject()));
             }
         }
     }

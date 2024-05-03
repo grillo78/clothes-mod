@@ -2,6 +2,7 @@ package grillo78.clothes_mod.common.capabilities;
 
 import grillo78.clothes_mod.common.network.PacketHandler;
 import grillo78.clothes_mod.common.network.packets.SyncCap;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.INBT;
 import net.minecraft.world.World;
@@ -12,7 +13,12 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class ClothesInvWrapper implements IClothesInvWrapper{
 
+    private final PlayerEntity player;
     private IItemHandler inventory = new ItemStackHandler(9);
+
+    public ClothesInvWrapper(PlayerEntity player) {
+        this.player = player;
+    }
 
     @Override
     public IItemHandler getInventory() {
@@ -21,7 +27,7 @@ public class ClothesInvWrapper implements IClothesInvWrapper{
 
     @Override
     public void syncToAll(World level) {
-        level.players().forEach(playerEntity -> PacketHandler.INSTANCE.sendTo(new SyncCap(writeNBT(), playerEntity.getId()),((ServerPlayerEntity)playerEntity).connection.connection, NetworkDirection.PLAY_TO_CLIENT));
+        level.players().forEach(playerEntity -> PacketHandler.INSTANCE.sendTo(new SyncCap(writeNBT(), player.getId()),((ServerPlayerEntity)playerEntity).connection.connection, NetworkDirection.PLAY_TO_CLIENT));
     }
 
     @Override

@@ -41,5 +41,6 @@ public class SyncCap implements IMessage<SyncCap> {
                 cap.readNBT(message.compoundNBT.get("inv"));
             });
         });
+        supplier.get().setPacketHandled(true);
     }
 }

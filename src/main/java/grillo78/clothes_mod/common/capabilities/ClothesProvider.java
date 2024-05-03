@@ -1,5 +1,6 @@
 package grillo78.clothes_mod.common.capabilities;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -15,8 +16,8 @@ public class ClothesProvider implements ICapabilityProvider, ICapabilitySerializ
     public static final Capability<IClothesInvWrapper> CLOTHES_INVENTORY = null;
     private final LazyOptional<IClothesInvWrapper> inventory;
 
-    public ClothesProvider() {
-        this.inventory = LazyOptional.of(() -> new ClothesInvWrapper());
+    public ClothesProvider(PlayerEntity player) {
+        this.inventory = LazyOptional.of(() -> new ClothesInvWrapper(player));
     }
 
     @Override
