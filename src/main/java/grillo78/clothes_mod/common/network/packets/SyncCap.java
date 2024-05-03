@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -36,10 +37,13 @@ public class SyncCap implements IMessage<SyncCap> {
 
     @Override
     public void handle(SyncCap message, Supplier<NetworkEvent.Context> supplier) {
-        supplier.get().enqueueWork(()->{
-            Minecraft.getInstance().level.getEntity(message.id).getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap->{
-                cap.readNBT(message.compoundNBT.get("inv"));
-            });
+        supplier.get().enqueueWork(() -> {
+            Entity entity = Minecraft.getInstance().level.getEntity(message.id);
+            if (entity != null)
+                entity.getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
+                    cap.readNBT(message.compoundNBT.get("inv"));
+                });
         });
+        supplier.get().setPacketHandled(true);
     }
 }

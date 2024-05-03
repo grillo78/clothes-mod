@@ -14,7 +14,7 @@ public interface Cloth {
     ClothesSlot getSlot();
 
     @OnlyIn(Dist.CLIENT)
-    void renderCloth(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, LocalPlayer pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch, PlayerModel parentModel);
+    void renderCloth(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, Player pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch, PlayerModel parentModel);
 
     default boolean canDropOnDeath(Player player, ItemStack stack) {
         return true;
