@@ -41,7 +41,6 @@ public class ModItems {
 
     private static RegistryObject<ClothItem> registerClothes(String name, ClothesSlot slot){
         return register(name, ()->new ClothItem(new Item.Properties(), slot));
-//        return register(name, ()->new ClothItem(new Item.Properties(), slot));
     }
 
     public static <T extends Item, V extends Supplier<T>> RegistryObject<T> register(String name, V itemSupplier) {

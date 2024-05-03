@@ -16,7 +16,11 @@ public interface Cloth {
     @OnlyIn(Dist.CLIENT)
     void renderCloth(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, LocalPlayer pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch, PlayerModel parentModel);
 
-    default boolean canDropOnDeath(Player player, ItemStack stack){
+    default boolean canDropOnDeath(Player player, ItemStack stack) {
+        return true;
+    }
+
+    default boolean canPickUp(Player player, ItemStack stack) {
         return true;
     }
 }
