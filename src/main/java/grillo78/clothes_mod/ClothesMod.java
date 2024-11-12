@@ -55,6 +55,7 @@ public class ClothesMod {
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerTabs);
+        MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(this::onEntityEnterWorld);
         MinecraftForge.EVENT_BUS.addListener(this::onStartTracking);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerClone);
@@ -90,24 +91,36 @@ public class ClothesMod {
         PacketHandler.init();
     }
 
-    private void onEntityEnterWorld(EntityJoinLevelEvent event) {
-        if(!event.getEntity().level().isClientSide)
+    private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!event.getEntity().level().isClientSide)
             event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
-            cap.syncToAll(event.getEntity().level());
-        });
+                cap.syncToAll(event.getEntity().level());
+            });
+    }
+
+    private void onEntityEnterWorld(EntityJoinLevelEvent event) {
+        if (!event.getEntity().level().isClientSide)
+            event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
+                cap.syncToAll(event.getEntity().level());
+            });
     }
 
     private void onStartTracking(PlayerEvent.StartTracking event) {
-        if(!event.getEntity().level().isClientSide)
+        if (!event.getEntity().level().isClientSide)
             event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
                 cap.syncToAll(event.getEntity().level());
             });
     }
 
     private void onPlayerClone(final PlayerEvent.Clone event) {
-        event.getOriginal().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(h ->
-                event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(c -> c.readNBT(h.writeNBT()))
-        );
+        event.getOriginal().reviveCaps();
+            event.getOriginal().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(h ->
+                    event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(c -> {
+                        c.readNBT(h.writeNBT());
+                        c.syncToAll(event.getEntity().level());
+                    })
+            );
+        event.getOriginal().invalidateCaps();
     }
 
     public void onPlayerDeath(LivingDropsEvent event) {

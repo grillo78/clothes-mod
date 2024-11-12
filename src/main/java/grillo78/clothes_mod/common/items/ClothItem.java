@@ -54,7 +54,7 @@ public class ClothItem extends Item implements Cloth {
         model.rightLeg.copyFrom(bipedModel.rightLeg);
         model.rightPants.copyFrom(bipedModel.rightPants);
 
-        model.young = false;
+        model.young = bipedModel.young;
 
         model.head.copyFrom(bipedModel.head);
         model.hat.copyFrom(bipedModel.hat);
@@ -68,6 +68,19 @@ public class ClothItem extends Item implements Cloth {
         model.leftPants.copyFrom(bipedModel.leftPants);
         model.rightLeg.copyFrom(bipedModel.rightLeg);
         model.rightPants.copyFrom(bipedModel.rightPants);
+
+        model.head.visible = bipedModel.head.visible;
+        model.hat.visible = bipedModel.hat.visible;
+        model.body.visible = bipedModel.body.visible;
+        model.jacket.visible = bipedModel.jacket.visible;
+        model.leftArm.visible = bipedModel.leftArm.visible;
+        model.leftSleeve.visible = bipedModel.leftSleeve.visible;
+        model.rightArm.visible = bipedModel.rightArm.visible;
+        model.rightSleeve.visible = bipedModel.rightSleeve.visible;
+        model.leftLeg.visible = bipedModel.leftLeg.visible;
+        model.leftPants.visible = bipedModel.leftPants.visible;
+        model.rightLeg.visible = bipedModel.rightLeg.visible;
+        model.rightPants.visible = bipedModel.rightPants.visible;
 
         model.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(getTexture())), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
     }

@@ -7,10 +7,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class ClothesProvider implements ICapabilityProvider, ICapabilitySerializable {
+public class ClothesProvider implements ICapabilityProvider, ICapabilitySerializable<CompoundTag> {
 
-    public static final Capability<IClothesInvWrapper> CLOTHES_INVENTORY = CapabilityManager.get(new CapabilityToken<>(){});
-    private final LazyOptional<IClothesInvWrapper> inventory;
+    public static final Capability<ClothesInvWrapper> CLOTHES_INVENTORY = CapabilityManager.get(new CapabilityToken<>(){});
+    private final LazyOptional<ClothesInvWrapper> inventory;
 
     public ClothesProvider(Player player) {
         this.inventory = LazyOptional.of(() -> new ClothesInvWrapper(player));
@@ -25,14 +25,12 @@ public class ClothesProvider implements ICapabilityProvider, ICapabilitySerializ
     }
 
     @Override
-    public Tag serializeNBT() {
-        Tag nbt = inventory.map(items -> items.writeNBT())
-                .orElseGet(CompoundTag::new);
-        return nbt;
+    public CompoundTag serializeNBT() {
+        return inventory.orElseThrow(() -> new IllegalArgumentException("Inventory must not be empty")).writeNBT();
     }
 
     @Override
-    public void deserializeNBT(Tag nbt) {
-        inventory.ifPresent(items -> items.readNBT(nbt));
+    public void deserializeNBT(CompoundTag nbt) {
+        inventory.orElseThrow(() -> new IllegalArgumentException("Inventory must not be empty!")).readNBT(nbt);
     }
 }
