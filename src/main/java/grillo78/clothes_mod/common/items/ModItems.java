@@ -13,9 +13,9 @@ public class ModItems {
 
     public static final RegistryObject<ClothItem> GLASSES = registerClothes("glasses", ClothesSlot.HEAD);
     public static final RegistryObject<ClothItem> GREEN_CAP = registerClothes("green_cap", ClothesSlot.HEAD);
-    public static final RegistryObject<ClothItem> RED_WHITE_CAP = registerClothes("red_white_cap", ClothesSlot.HEAD);
+    public static final RegistryObject<ClothItem> RED_WHITE_CAP = registerClothesWithMask("red_white_cap", ClothesSlot.HEAD);
 
-    public static final RegistryObject<ClothItem> ANCHOR_SHIRT = registerClothes("anchor_shirt", ClothesSlot.SHIRT);
+    public static final RegistryObject<ClothItem> ANCHOR_SHIRT = registerClothesWithMask("anchor_shirt", ClothesSlot.SHIRT);
     public static final RegistryObject<ClothItem> DINOSAUR_SHIRT = registerClothes("dinosaur_shirt", ClothesSlot.SHIRT);
     public static final RegistryObject<ClothItem> PIZZA_SHIRT = registerClothes("pizza_shirt", ClothesSlot.SHIRT);
     public static final RegistryObject<ClothItem> PLANET_SHIRT = registerClothes("planet_shirt", ClothesSlot.SHIRT);
@@ -40,7 +40,10 @@ public class ModItems {
     public static final RegistryObject<ClothItem> DARK_CYAN_SHOES = registerClothes("cyan_shoes", ClothesSlot.SHOES);
 
     private static RegistryObject<ClothItem> registerClothes(String name, ClothesSlot slot){
-        return register(name, ()->new ClothItem(new Item.Properties(), slot));
+        return register(name, ()->new ClothItem(new Item.Properties(), slot, false));
+    }
+    private static RegistryObject<ClothItem> registerClothesWithMask(String name, ClothesSlot slot){
+        return register(name, ()->new ClothItem(new Item.Properties(), slot, true));
     }
 
     public static <T extends Item, V extends Supplier<T>> RegistryObject<T> register(String name, V itemSupplier) {

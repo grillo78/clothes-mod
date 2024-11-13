@@ -2,6 +2,7 @@ package grillo78.clothes_mod;
 
 import grillo78.clothes_mod.client.KeyBinds;
 import grillo78.clothes_mod.client.ModModelLayers;
+import grillo78.clothes_mod.client.entity.ClothesLayer;
 import grillo78.clothes_mod.client.screen.InventoryScreen;
 import grillo78.clothes_mod.common.blocks.ModBlocks;
 import grillo78.clothes_mod.common.capabilities.ClothesProvider;
@@ -11,10 +12,12 @@ import grillo78.clothes_mod.common.menu.ModMenus;
 import grillo78.clothes_mod.common.network.PacketHandler;
 import grillo78.clothes_mod.common.network.packets.OpenInventory;
 import grillo78.clothes_mod.common.recipes.ModRecipes;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -50,27 +53,28 @@ public class ClothesMod {
     public static final String MOD_ID = "clothes_mod";
     private static final ResourceKey<CreativeModeTab> CLOTHES = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(MOD_ID, "tab"));
 
-    public ClothesMod() {
+    public ClothesMod(FMLJavaModLoadingContext context) {
         MinecraftForge.EVENT_BUS.register(new SpecialRuntimeEvents());
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerTabs);
+        context.getModEventBus().addListener(this::setup);
+        context.getModEventBus().addListener(this::registerTabs);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(this::onEntityEnterWorld);
         MinecraftForge.EVENT_BUS.addListener(this::onStartTracking);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerClone);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerDeath);
 
-        ModMenus.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModRecipes.Serializers.SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModRecipes.Types.TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModMenus.CONTAINERS.register(context.getModEventBus());
+        ModItems.ITEMS.register(context.getModEventBus());
+        ModBlocks.BLOCKS.register(context.getModEventBus());
+        ModRecipes.Serializers.SERIALIZERS.register(context.getModEventBus());
+        ModRecipes.Types.TYPES.register(context.getModEventBus());
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-            FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerKey);
-            FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerLayerDefinitions);
+            context.getModEventBus().addListener(this::doClientStuff);
+            context.getModEventBus().addListener(this::registerKey);
+            context.getModEventBus().addListener(this::addLayers);
+            context.getModEventBus().addListener(this::registerLayerDefinitions);
             MinecraftForge.EVENT_BUS.addListener(this::keyPressed);
         });
     }
@@ -114,12 +118,12 @@ public class ClothesMod {
 
     private void onPlayerClone(final PlayerEvent.Clone event) {
         event.getOriginal().reviveCaps();
-            event.getOriginal().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(h ->
-                    event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(c -> {
-                        c.readNBT(h.writeNBT());
-                        c.syncToAll(event.getEntity().level());
-                    })
-            );
+        event.getOriginal().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(h ->
+                event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(c -> {
+                    c.readNBT(h.writeNBT());
+                    c.syncToAll(event.getEntity().level());
+                })
+        );
         event.getOriginal().invalidateCaps();
     }
 
@@ -147,6 +151,13 @@ public class ClothesMod {
     @OnlyIn(Dist.CLIENT)
     public void registerKey(RegisterKeyMappingsEvent event) {
         KeyBinds.registerKeys(event);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void addLayers(EntityRenderersEvent.AddLayers event) {
+        Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap().forEach((s, renderer) -> {
+            ((PlayerRenderer) renderer).addLayer(new ClothesLayer((PlayerRenderer) renderer));
+        });
     }
 
     @OnlyIn(Dist.CLIENT)
