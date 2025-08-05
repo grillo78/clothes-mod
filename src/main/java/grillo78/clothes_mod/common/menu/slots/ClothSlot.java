@@ -10,15 +10,17 @@ import net.minecraftforge.items.SlotItemHandler;
 public class ClothSlot extends SlotItemHandler {
 
     private ClothesSlot slot;
+    private Player player;
 
-    public ClothSlot(IItemHandler pContainer, int pIndex, int pX, int pY) {
+    public ClothSlot(IItemHandler pContainer, int pIndex, int pX, int pY, Player player) {
         super(pContainer, pIndex, pX, pY);
         this.slot = ClothesSlot.getFromID(pIndex);
+        this.player = player;
     }
 
     @Override
     public boolean mayPlace(ItemStack pStack) {
-        return pStack.getItem() instanceof Cloth && ((Cloth) pStack.getItem()).getSlot() == slot;
+        return pStack.getItem() instanceof Cloth && ((Cloth) pStack.getItem()).canPlace(pStack, slot, player);
     }
 
     @Override

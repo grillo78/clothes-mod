@@ -1,0 +1,35 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {"type": "forge:mod_loaded",
+            "modid": "fantasy_beyond"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "pattern": [
+          "##i",
+          "  i",
+          "iii"
+        ],
+        "key": {
+          "#": {
+            "item": "minecraft:iron_block"
+          },
+          "i": {
+            "item": "minecraft:iron_ingot"
+          }
+        },
+        "result": {
+          "item": "clothes_mod:sewing_machine",
+          "count": 1
+        }
+      }
+    }
+  ]
+}

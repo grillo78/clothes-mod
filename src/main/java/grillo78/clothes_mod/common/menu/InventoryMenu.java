@@ -16,15 +16,15 @@ public class InventoryMenu extends AbstractContainerMenu {
     public InventoryMenu(@Nullable MenuType<?> pMenuType, int pContainerId, Player player) {
         super(pMenuType, pContainerId);
         player.getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap->{
-                addSlot(new ClothSlot(cap.getInventory(), 0,80,8));
-                addSlot(new ClothSlot(cap.getInventory(), 1,80,26));
-                addSlot(new ClothSlot(cap.getInventory(), 2,80,44));
-                addSlot(new ClothSlot(cap.getInventory(), 3,80,62));
-                addSlot(new ClothSlot(cap.getInventory(), 4,98,26));
-                addSlot(new ClothSlot(cap.getInventory(), 5,116,26));
-                addSlot(new ClothSlot(cap.getInventory(), 6,134,26));
-                addSlot(new ClothSlot(cap.getInventory(), 7,152,26));
-                addSlot(new ClothSlot(cap.getInventory(), 8,98,44));
+                addSlot(new ClothSlot(cap.getInventory(), 0,80,8, player));
+                addSlot(new ClothSlot(cap.getInventory(), 1,80,26, player));
+                addSlot(new ClothSlot(cap.getInventory(), 2,80,44, player));
+                addSlot(new ClothSlot(cap.getInventory(), 3,80,62, player));
+                addSlot(new ClothSlot(cap.getInventory(), 4,98,26, player));
+                addSlot(new ClothSlot(cap.getInventory(), 5,116,26, player));
+                addSlot(new ClothSlot(cap.getInventory(), 6,134,26, player));
+                addSlot(new ClothSlot(cap.getInventory(), 7,152,26, player));
+                addSlot(new ClothSlot(cap.getInventory(), 8,98,44, player));
         });
         addPlayerSlots(new InvWrapper(player.getInventory()));
     }
@@ -42,10 +42,7 @@ public class InventoryMenu extends AbstractContainerMenu {
         for (int row = 0; row < 9; ++row) {
             int x = 8 + row * 18;
             int y = yStart + 58;
-//            if (row != locked)
             this.addSlot(new SlotItemHandler(playerInventory, row, x, y));
-//            else
-//                this.addSlot(new LockedSlot(playerInventory, row, x, y));
         }
     }
 

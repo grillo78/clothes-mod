@@ -25,15 +25,20 @@ public class ClothItem extends Item implements Cloth {
 
     private final ClothesSlot slot;
     private boolean hasMask;
+    private ResourceLocation alphaMask;
+    private ResourceLocation slimAlphaMask;
 
     public ClothItem(Item.Properties pProperties, ClothesSlot slot) {
-        this(pProperties.stacksTo(1), slot, false);
+        this(pProperties.stacksTo(1), slot, false, null);
     }
 
-    public ClothItem(Item.Properties pProperties, ClothesSlot slot, boolean hasMask) {
+    public ClothItem(Item.Properties pProperties, ClothesSlot slot, boolean hasMask, ResourceLocation alphaMask) {
         super(pProperties);
         this.slot = slot;
         this.hasMask = hasMask;
+        this.alphaMask = alphaMask;
+        if(hasMask)
+            slimAlphaMask = new ResourceLocation(alphaMask.getNamespace(), alphaMask.getPath().replace("_alphamask.png", "_slim_alphamask.png"));
     }
 
     @Override
@@ -101,7 +106,7 @@ public class ClothItem extends Item implements Cloth {
     }
 
     public ResourceLocation getAlphaMask(Player player) {
-        return hasMask? new ResourceLocation(ForgeRegistries.ITEMS.getKey(this).getNamespace(), "textures/entity/clothes/" + ForgeRegistries.ITEMS.getKey(this).getPath() + (haveSmallArms(player)? "_slim_alphamask.png" : "_alphamask.png")) : null;
+        return hasMask ? (alphaMask != null ? (haveSmallArms(player)? slimAlphaMask :alphaMask) : new ResourceLocation(ForgeRegistries.ITEMS.getKey(this).getNamespace(), "textures/entity/clothes/" + ForgeRegistries.ITEMS.getKey(this).getPath() + (haveSmallArms(player) ? "_slim_alphamask.png" : "_alphamask.png"))) : null;
     }
 
     protected ResourceLocation getTexture() {

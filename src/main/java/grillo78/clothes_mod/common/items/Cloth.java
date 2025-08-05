@@ -6,6 +6,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,5 +25,10 @@ public interface Cloth {
     default boolean canPickUp(Player player, ItemStack stack) {
         return true;
     }
+
+    default boolean canPlace(ItemStack stack, ClothesSlot slot, Player player){
+        return ((Cloth) stack.getItem()).getSlot() == slot;
+    }
+
     ResourceLocation getAlphaMask(Player player);
 }

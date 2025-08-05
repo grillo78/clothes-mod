@@ -117,14 +117,16 @@ public class ClothesMod {
     }
 
     private void onPlayerClone(final PlayerEvent.Clone event) {
-        event.getOriginal().reviveCaps();
-        event.getOriginal().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(h ->
-                event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(c -> {
-                    c.readNBT(h.writeNBT());
-                    c.syncToAll(event.getEntity().level());
-                })
-        );
-        event.getOriginal().invalidateCaps();
+        if (event.getEntity() instanceof Player && event.getEntity().level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
+            event.getOriginal().reviveCaps();
+            event.getOriginal().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(h ->
+                    event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(c -> {
+                        c.readNBT(h.writeNBT());
+                        c.syncToAll(event.getEntity().level());
+                    })
+            );
+            event.getOriginal().invalidateCaps();
+        }
     }
 
     public void onPlayerDeath(LivingDropsEvent event) {
@@ -145,7 +147,7 @@ public class ClothesMod {
 
     @OnlyIn(Dist.CLIENT)
     public void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(ModModelLayers.CLOTHES, () -> LayerDefinition.create(PlayerModel.createMesh(new CubeDeformation(0.01F), false), 64, 64));
+        event.registerLayerDefinition(ModModelLayers.CLOTHES, () -> LayerDefinition.create(PlayerModel.createMesh(new CubeDeformation(0.01F), true), 64, 64));
     }
 
     @OnlyIn(Dist.CLIENT)
