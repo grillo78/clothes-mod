@@ -4,36 +4,26 @@ import grillo78.clothes_mod.client.ClientUtils;
 import grillo78.clothes_mod.client.screen.SewingMachineScreen;
 import grillo78.clothes_mod.common.container.InventoryContainer;
 import grillo78.clothes_mod.common.container.ModContainers;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.api.distmarker.Dist;
 
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
-public class SewingMachineBlock extends HorizontalBlock {
+public class SewingMachineBlock extends HorizontalDirectionalBlock {
     private static final VoxelShape NORTH_SHAPE = Stream.of(
             Block.box(3, 6, 5, 14, 10, 11),
             Block.box(10, 2, 6, 14, 6, 10),
@@ -42,7 +32,7 @@ public class SewingMachineBlock extends HorizontalBlock {
             Block.box(11, 3, 5.5, 13, 5, 6),
             Block.box(4, 5, 7, 6, 6, 9),
             Block.box(4.5, 4, 7.500000000000002, 5.5, 5, 8.500000000000002)
-    ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     private static final VoxelShape SOUTH_SHAPE = Stream.of(
             Block.box(10.5, 4, 7.499999999999998, 11.5, 5, 8.499999999999998),
             Block.box(2, 6, 5, 13, 10, 11),
@@ -51,7 +41,7 @@ public class SewingMachineBlock extends HorizontalBlock {
             Block.box(3.5000000000000018, 7.5, 11, 4.500000000000002, 8.5, 11.5),
             Block.box(3, 3, 10, 5, 5, 10.5),
             Block.box(10, 5, 7, 12, 6, 9)
-    ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     private static final VoxelShape EAST_SHAPE = Stream.of(
             Block.box(7.499999999999998, 4, 4.5, 8.499999999999998, 5, 5.5),
             Block.box(5, 6, 3, 11, 10, 14),
@@ -60,7 +50,7 @@ public class SewingMachineBlock extends HorizontalBlock {
             Block.box(11, 7.5, 11.499999999999998, 11.5, 8.5, 12.499999999999998),
             Block.box(10, 3, 11, 10.5, 5, 13),
             Block.box(7, 5, 4, 9, 6, 6)
-    ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     private static final VoxelShape WEST_SHAPE = Stream.of(
             Block.box(7.500000000000002, 4, 10.5, 8.500000000000002, 5, 11.5),
             Block.box(5, 6, 2, 11, 10, 13),
@@ -69,7 +59,7 @@ public class SewingMachineBlock extends HorizontalBlock {
             Block.box(4.5, 7.5, 3.5000000000000018, 5, 8.5, 4.500000000000002),
             Block.box(5.5, 3, 3, 6, 5, 5),
             Block.box(7, 5, 10, 9, 6, 12)
-    ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
     public SewingMachineBlock(Properties p_i48440_1_) {
         super(p_i48440_1_);
@@ -77,10 +67,11 @@ public class SewingMachineBlock extends HorizontalBlock {
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
-        if (pLevel.isClientSide)
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+
+        if (level.isClientSide)
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()-> ClientUtils.openSewingMachine());
-        return ActionResultType.SUCCESS;
+        return ItemInteractionResult.SUCCESS;
     }
 
     @Override
@@ -96,7 +87,7 @@ public class SewingMachineBlock extends HorizontalBlock {
 
     @Override
     public VoxelShape getShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
-        VoxelShape shape = VoxelShapes.block();
+        VoxelShape shape = Shapes.block();
 
         switch (pState.getValue(FACING)){
             case NORTH:

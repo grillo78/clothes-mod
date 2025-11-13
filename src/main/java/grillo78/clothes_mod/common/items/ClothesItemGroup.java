@@ -1,8 +1,8 @@
 package grillo78.clothes_mod.common.items;
 
 import grillo78.clothes_mod.ClothesMod;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemGroup;
+import net.minecraft.world.item.ItemStack;
 
 public class ClothesItemGroup  extends ItemGroup {
     public static final ItemGroup INSTANCE = new ClothesItemGroup(ClothesMod.MOD_ID);

@@ -15,25 +15,29 @@ import grillo78.clothes_mod.common.recipes.ModRecipes;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameRules;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.client.event.InputEvent;
+import net.neoforged.common.MinecraftForge;
+import net.neoforged.event.AttachCapabilitiesEvent;
+import net.neoforged.event.entity.EntityJoinWorldEvent;
+import net.neoforged.event.entity.living.LivingDropsEvent;
+import net.neoforged.event.entity.player.PlayerEvent;
+import net.neoforged.eventbus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.GatherDataEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.items.IItemHandler;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import org.lwjgl.glfw.GLFW;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -42,13 +46,14 @@ public class ClothesMod {
     public static final String MOD_ID = "clothes_mod";
 
     public ClothesMod() {
-        MinecraftForge.EVENT_BUS.register(new SpecialRuntimeEvents());
+        
+        NeoForge.EVENT_BUS.register(new SpecialRuntimeEvents());
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        MinecraftForge.EVENT_BUS.addListener(this::onEntityEnterWorld);
-        MinecraftForge.EVENT_BUS.addListener(this::onStartTracking);
-        MinecraftForge.EVENT_BUS.addListener(this::onPlayerClone);
-        MinecraftForge.EVENT_BUS.addListener(this::onPlayerDeath);
+        NeoForge.EVENT_BUS.addListener(this::onEntityEnterWorld);
+        NeoForge.EVENT_BUS.addListener(this::onStartTracking);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerClone);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerDeath);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherData);
 
         ModContainers.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -63,24 +68,24 @@ public class ClothesMod {
     }
 
     public void gatherData(GatherDataEvent event) {
-        event.getGenerator().addProvider(new ModItemModelProvider(event.getGenerator(), MOD_ID, event.getExistingFileHelper()));
+        event.getGenerator().addProvider(true, new ModItemModelProvider(event.getGenerator(), MOD_ID, event.getExistingFileHelper()));
     }
 
     public void setup(FMLCommonSetupEvent event) {
         PacketHandler.init();
     }
 
-    private void onEntityEnterWorld(final EntityJoinWorldEvent event) {
-        if (!event.getWorld().isClientSide)
+    private void onEntityEnterWorld(final EntityJoinLevelEvent event) {
+        if (!event.getLevel().isClientSide)
             event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
-                cap.syncToAll(event.getEntity().level);
+                cap.syncToAll(event.getEntity().level());
             });
     }
 
     private void onStartTracking(final PlayerEvent.StartTracking event) {
-        if (!event.getEntity().level.isClientSide)
+        if (!event.getEntity().level().isClientSide)
             event.getEntity().getCapability(ClothesProvider.CLOTHES_INVENTORY).ifPresent(cap -> {
-                cap.syncToAll(event.getEntity().level);
+                cap.syncToAll(event.getEntity().level());
             });
     }
 

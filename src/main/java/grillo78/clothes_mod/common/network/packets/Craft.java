@@ -2,8 +2,8 @@ package grillo78.clothes_mod.common.network.packets;
 
 import grillo78.clothes_mod.common.network.IMessage;
 import grillo78.clothes_mod.common.recipes.SewingMachineRecipe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.IRecipe;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;

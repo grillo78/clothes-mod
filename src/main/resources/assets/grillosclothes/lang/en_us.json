@@ -1,0 +1,13 @@
+{
+  "itemGroup.grillosclothes": "Example Mod Tab",
+  "block.grillosclothes.example_block": "Example Block",
+  "item.grillosclothes.example_item": "Example Item",
+
+  "grillosclothes.configuration.title": "Grillo's Clothes Configs",
+  "grillosclothes.configuration.section.grillosclothes.common.toml": "Grillo's Clothes Configs",
+  "grillosclothes.configuration.section.grillosclothes.common.toml.title": "Grillo's Clothes Configs",
+  "grillosclothes.configuration.items": "Item List",
+  "grillosclothes.configuration.logDirtBlock": "Log Dirt Block",
+  "grillosclothes.configuration.magicNumberIntroduction": "Magic Number Text",
+  "grillosclothes.configuration.magicNumber": "Magic Number"
+}

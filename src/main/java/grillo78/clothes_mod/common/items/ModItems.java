@@ -1,12 +1,13 @@
 package grillo78.clothes_mod.common.items;
 
 import grillo78.clothes_mod.ClothesMod;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModItems {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ClothesMod.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.createItems(ClothesMod.MOD_ID);
 
     public static final ClothItem GLASSES = registerClothes("glasses", ClothesSlot.HEAD);
     public static final ClothItem GREEN_CAP = registerClothes("green_cap", ClothesSlot.HEAD);
@@ -37,7 +38,7 @@ public class ModItems {
     public static final ClothItem DARK_CYAN_SHOES = registerClothes("cyan_shoes", ClothesSlot.SHOES);
 
     private static ClothItem registerClothes(String name, ClothesSlot slot){
-        return register(name, new ClothItem(new Item.Properties().tab(ClothesItemGroup.INSTANCE), slot));
+        return register(name, new ClothItem(new Item.Properties(), slot));
     }
 
     public static <T extends Item> T register(String name, T itemType) {

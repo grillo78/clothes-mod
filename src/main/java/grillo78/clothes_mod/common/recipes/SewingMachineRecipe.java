@@ -5,12 +5,12 @@ import com.google.gson.JsonObject;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.IRecipe;
+import net.minecraft.world.item.crafting.IRecipeSerializer;
+import net.minecraft.world.item.crafting.IRecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -113,11 +113,11 @@ public class SewingMachineRecipe implements IRecipe<IInventory> {
             List<Integer> ingredientsAmount = new ArrayList();
             JsonArray serializedIngredients = pJson.get("ingredients").getAsJsonArray();
             for (int i = 0; i < serializedIngredients.size(); i++) {
-                ingredients.add(ForgeRegistries.ITEMS.getValue(new ResourceLocation(serializedIngredients.get(i).getAsJsonObject().get("item").getAsString())));
+                ingredients.add(BuiltInRegistries.ITEM.getValue(new ResourceLocation(serializedIngredients.get(i).getAsJsonObject().get("item").getAsString())));
                 ingredientsAmount.add(serializedIngredients.get(i).getAsJsonObject().get("amount").getAsInt());
             }
             JsonObject resultObject = pJson.get("result").getAsJsonObject();
-            Item result = ForgeRegistries.ITEMS.getValue(new ResourceLocation(resultObject.get("item").getAsString()));
+            Item result = BuiltInRegistries.ITEM.getValue(new ResourceLocation(resultObject.get("item").getAsString()));
             int resultAmount = resultObject.get("count").getAsInt();
             int duration = pJson.has("duration")? pJson.get("duration").getAsInt() : 100;
             return new SewingMachineRecipe(pRecipeId, ingredients, ingredientsAmount, result, resultAmount, duration);
@@ -130,10 +130,10 @@ public class SewingMachineRecipe implements IRecipe<IInventory> {
             List<Integer> ingredientsAmount = new ArrayList();
             int size = pBuffer.readInt();
             for (int i = 0; i < size; i++) {
-                ingredients.add(ForgeRegistries.ITEMS.getValue(new ResourceLocation(pBuffer.readUtf())));
+                ingredients.add(BuiltInRegistries.ITEM.getValue(new ResourceLocation(pBuffer.readUtf())));
                 ingredientsAmount.add(pBuffer.readInt());
             }
-            Item result = ForgeRegistries.ITEMS.getValue(new ResourceLocation(pBuffer.readUtf()));
+            Item result = BuiltInRegistries.ITEM.getValue(new ResourceLocation(pBuffer.readUtf()));
             int resultAmount = pBuffer.readInt();
             int duration = pBuffer.readInt();
             return new SewingMachineRecipe(pRecipeId,ingredients, ingredientsAmount, result, resultAmount, duration);
@@ -143,10 +143,10 @@ public class SewingMachineRecipe implements IRecipe<IInventory> {
         public void toNetwork(PacketBuffer pBuffer, SewingMachineRecipe pRecipe) {
             pBuffer.writeInt(pRecipe.ingredients.size());
             for (int i = 0; i < pRecipe.ingredients.size(); i++) {
-                pBuffer.writeUtf(ForgeRegistries.ITEMS.getKey(pRecipe.ingredients.get(i)).toString());
+                pBuffer.writeUtf(BuiltInRegistries.ITEM.getKey(pRecipe.ingredients.get(i)).toString());
                 pBuffer.writeInt(pRecipe.ingredientsAmount.get(i));
             }
-            pBuffer.writeUtf(ForgeRegistries.ITEMS.getKey(pRecipe.result).toString());
+            pBuffer.writeUtf(BuiltInRegistries.ITEM.getKey(pRecipe.result).toString());
             pBuffer.writeInt(pRecipe.resultAmount);
             pBuffer.writeInt(pRecipe.duration);
 
